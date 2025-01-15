@@ -8,6 +8,7 @@ import MachinesManagement from "./pages/Admin/MachinesManagement";
 import SparePartsInventory from "./pages/Inventory/SparePartsInventory";
 import TextileInventory from "./pages/Inventory/TextileInventory";
 import AddMachine from "./pages/Admin/AddMachine";
+import MachineTypes from "./pages/Admin/MachineTypes";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
       <Route path="/admin/machines/add-machine" element={<AddMachine />} />
       <Route path="/admin/spare-parts" element={<SparePartsInventory />} />
       <Route path="/admin/textile-inventory" element={<TextileInventory />} />
+      <Route path="/admin/machine-types" element={<MachineTypes />} />
     </Routes>
   );
 };

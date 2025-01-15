@@ -5,9 +5,10 @@ import { FaPlus } from "react-icons/fa";
 
 const AddMachine = () => {
   const [machineTypes, setMachineTypes] = useState([]);
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedType, setSelectedType] = useState(""); // String word (e.g., "WeavingMachine")
+  const [selectedTypeId, setSelectedTypeId] = useState(""); // _id of the selected type
   const [formData, setFormData] = useState({
-    type: "",
+    type: "", // This will now hold the type _id
     WeavingMachineData: {},
     MatwaData: {},
     SadayaData: {},
@@ -21,8 +22,7 @@ const AddMachine = () => {
     const fetchMachineTypes = async () => {
       try {
         const response = await axios.get(`${backendUrl}/admin/machines/types`);
-        console.log(response);
-        setMachineTypes(response.data); // Assuming response.data contains types like ["WeavingMachine", "Matwa", "Sadaya"]
+        setMachineTypes(response.data); // Assuming response.data contains { type, _id }
       } catch (error) {
         console.error("Error fetching machine types:", error);
       }
@@ -33,8 +33,11 @@ const AddMachine = () => {
 
   // Handle changes in the dropdown selection
   const handleTypeChange = (e) => {
-    setSelectedType(e.target.value);
-    setFormData({ ...formData, type: e.target.value }); // Set the selected type in the form data
+    const selectedTypeWord = e.target.options[e.target.selectedIndex].text;
+    const selectedId = e.target.value;
+    setSelectedType(selectedTypeWord); // Store the string word (e.g., "WeavingMachine")
+    setSelectedTypeId(selectedId); // Store the _id value
+    setFormData({ ...formData, type:   }); // Set the selected type _id in the form data
   };
 
   // Handle input changes dynamically
@@ -52,7 +55,7 @@ const AddMachine = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/machines", formData); // Adjust URL as necessary
+      await axios.post(`${backendUrl}/admin/machines`, formData); // Adjust URL as necessary
       navigate("/admin/machines"); // Redirect to the machines management page after submission
     } catch (error) {
       console.error("Error adding machine:", error);
@@ -83,8 +86,8 @@ const AddMachine = () => {
           >
             <option value="">Select Machine Type</option>
             {machineTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
+              <option key={type._id} value={type._id}>
+                {type.type} {/* Display the type value */}
               </option>
             ))}
           </select>

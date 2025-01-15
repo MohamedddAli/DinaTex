@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const machineSchema = new mongoose.Schema({
   type: {
-    type: String,
-    enum: ["WeavingMachine", "Matwa", "Sadaya"], // Define machine types
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "MachineTypes",
     required: true,
   },
   // Machine-specific fields based on type
@@ -20,7 +20,7 @@ const machineSchema = new mongoose.Schema({
         description: { type: String },
       },
     ],
-    MaintenanceCost: { type: Number },
+    MaintenanceCost: { type: Number, default: 0 },
   },
   MatwaData: {
     weight: { type: Number },
