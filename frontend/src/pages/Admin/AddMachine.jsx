@@ -37,7 +37,7 @@ const AddMachine = () => {
     const selectedId = e.target.value;
     setSelectedType(selectedTypeWord); // Store the string word (e.g., "WeavingMachine")
     setSelectedTypeId(selectedId); // Store the _id value
-    setFormData({ ...formData, type:   }); // Set the selected type _id in the form data
+    setFormData({ ...formData, type: selectedId }); // Set the selected type _id in the form data
   };
 
   // Handle input changes dynamically
