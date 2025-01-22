@@ -9,6 +9,8 @@ const {
   addWeavingMachine,
   getAllWeavingMachines,
   deleteWeavingMachine,
+  getWeavingMachineByID,
+  editWeavingMachine,
 } = require("../controllers/machines");
 
 router.get("/", getMachines);
@@ -24,5 +26,9 @@ router.post("/add-machine/weaving-machine", addWeavingMachine);
 router.get("/weaving-machines", getAllWeavingMachines);
 
 router.delete("/weaving-machines/:id", deleteWeavingMachine);
+
+router.get("/weaving-machines/:id", getWeavingMachineByID);
+
+router.post("/weaving-machines/:id", editWeavingMachine);
 
 module.exports = router;

@@ -6,10 +6,10 @@ const weavingMachineSchema = new mongoose.Schema({
   Model: { type: String, required: true },
   MaterialTypeLoaded: { type: String, required: true },
   MaterialQuantity: { type: Number, required: true },
-  LoadingDate: { type: Date, required: true },
+  LoadingDate: { type: String, required: true },
   Maintenances: [
     {
-      date: { type: Date },
+      date: { type: String },
       description: { type: String },
     },
   ],

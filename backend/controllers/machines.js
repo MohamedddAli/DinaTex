@@ -1,6 +1,15 @@
 const Machine = require("../models/Machine");
 const MachineTypes = require("../models/MachineTypes");
 const WeavingMachine = require("../models/WeavingMachine");
+const moment = require("moment");
+
+const formatDate = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}/${month}/${day}`;
+};
 
 exports.getMachines = async (req, res) => {
   try {
@@ -71,14 +80,13 @@ exports.addWeavingMachine = async (req, res) => {
       MaintenanceCost,
     } = req.body;
 
-    // Basic validation (optional, depends on your needs)
     if (!Number || !Type || !Model || !MaterialTypeLoaded || !LoadingDate) {
       return res
         .status(400)
         .json({ message: "All required fields must be filled" });
     }
 
-    // Create a new machine using the model
+    // Create a new machine
     const newMachine = new WeavingMachine({
       Number,
       Type,
@@ -89,7 +97,6 @@ exports.addWeavingMachine = async (req, res) => {
       MaintenanceCost,
     });
 
-    // Save the machine to the database
     await newMachine.save();
     res.status(201).json({
       message: "Weaving Machine added successfully!",
@@ -125,5 +132,69 @@ exports.deleteWeavingMachine = async (req, res) => {
   } catch (error) {
     console.error("Error deleting machine:", error);
     res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+exports.getWeavingMachineByID = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const machine = await WeavingMachine.findById(id);
+    if (!machine) {
+      return res.status(404).json({ message: "Machine not found" });
+    }
+    res.status(200).json(machine);
+  } catch (error) {
+    console.error("Error getting weaving machine by ID:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+exports.editWeavingMachine = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Find the machine by ID
+    const machine = await WeavingMachine.findById(id);
+    if (!machine) {
+      return res.status(404).json({ message: "Machine not found" });
+    }
+
+    // Destructure the new data from the request body
+    const {
+      Number,
+      Type,
+      Model,
+      MaterialTypeLoaded,
+      MaterialQuantity,
+      LoadingDate,
+      MaintenanceCost,
+    } = req.body;
+
+    // Validate required fields
+    if (!Number || !Type || !Model || !MaterialTypeLoaded || !LoadingDate) {
+      return res
+        .status(400)
+        .json({ message: "All required fields must be filled" });
+    }
+
+    // Update machine properties
+    machine.Number = Number;
+    machine.Type = Type;
+    machine.Model = Model;
+    machine.MaterialTypeLoaded = MaterialTypeLoaded;
+    machine.MaterialQuantity = MaterialQuantity || machine.MaterialQuantity; // Optional
+    machine.LoadingDate = LoadingDate;
+    machine.MaintenanceCost = MaintenanceCost || machine.MaintenanceCost; // Optional
+
+    // Save the updated machine
+    const updatedMachine = await machine.save();
+
+    // Respond with the updated machine
+    res.status(200).json({
+      message: "Weaving Machine updated successfully",
+      machine: updatedMachine,
+    });
+  } catch (error) {
+    console.error("Error updating weaving machine:", error);
+    res.status(500).json({ message: "Server error. Please try again." });
   }
 };

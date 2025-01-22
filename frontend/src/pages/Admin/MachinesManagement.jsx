@@ -60,7 +60,7 @@ const MachinesManagement = () => {
   }, [backendUrl]);
 
   const handleEdit = (id) => {
-    navigate(`/admin/machines/edit/${id}`);
+    navigate(`/admin/machines/edit-weavingmachine/${id}`);
   };
 
   const handleDelete = async (id, type) => {
@@ -107,7 +107,8 @@ const MachinesManagement = () => {
         {/* Render machine-specific details */}
         {activeTab === "WeavingMachine" && (
           <div>
-            <h4 className="font-semibold">Model: {machine.Model}</h4>
+            <h4 className="font-semibold">Type: {machine.Type}</h4>
+            <p>Model: {machine.Model}</p>
             <p>Material: {machine.MaterialTypeLoaded}</p>
             <p>Quantity: {machine.MaterialQuantity} kg</p>
             <p>Loaded Date : {machine.LoadingDate}</p>

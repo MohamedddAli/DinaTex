@@ -10,6 +10,7 @@ import TextileInventory from "./pages/Inventory/TextileInventory";
 import AddMachine from "./pages/Admin/AddMachine";
 import MachineTypes from "./pages/Admin/MachineTypes";
 import AddWeavingMachine from "./pages/Admin/AddWeavingMachine";
+import EditWeavingMachine from "./pages/Admin/EditWeavingMachine";
 
 const App = () => {
   return (
@@ -26,6 +27,10 @@ const App = () => {
       <Route
         path="/admin/machines/add-weavingmachine"
         element={<AddWeavingMachine />}
+      />
+      <Route
+        path="/admin/machines/edit-weavingmachine/:id"
+        element={<EditWeavingMachine />}
       />
       <Route path="/admin/machines/add-machine" element={<AddMachine />} />
       <Route path="/admin/spare-parts" element={<SparePartsInventory />} />

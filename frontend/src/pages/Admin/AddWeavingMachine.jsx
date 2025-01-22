@@ -122,7 +122,7 @@ const AddWeavingMachine = () => {
             htmlFor="MaterialQuantity"
             className="block text-lg font-semibold mb-2"
           >
-            Material Quantity (kg)
+            Material Quantity (Meters)
           </label>
           <input
             type="number"
@@ -145,9 +145,10 @@ const AddWeavingMachine = () => {
             Loading Date
           </label>
           <input
-            type="date"
+            type="text"
             id="LoadingDate"
             name="LoadingDate"
+            placeholder="Enter loading date"
             value={formData.LoadingDate}
             onChange={handleInputChange}
             className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -161,7 +162,7 @@ const AddWeavingMachine = () => {
             htmlFor="MaintenanceCost"
             className="block text-lg font-semibold mb-2"
           >
-            Maintenance Cost ($)
+            Maintenance Cost (EGP)
           </label>
           <input
             type="number"
