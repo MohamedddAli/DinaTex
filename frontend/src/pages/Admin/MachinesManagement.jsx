@@ -102,32 +102,54 @@ const MachinesManagement = () => {
       <div key={machine._id} className="bg-white p-6 rounded-lg shadow-md">
         {/* Render machine-specific details */}
         {activeTab === "WeavingMachine" && (
-          <div>
-            <h3 className="text-xl font-semibold text-blue-600 mb-4">
+          <div className="bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200">
+            {/* Machine Number */}
+            <h3 className="text-2xl font-bold text-blue-700 mb-4">
               NOL {machine.Number}
             </h3>
-            <h2>
-              <strong>Weaver:</strong> {machine.Weaver.name}
+
+            {/* Weaver Information */}
+            <h2 className="text-lg text-gray-700 mb-2">
+              <strong className="text-gray-800">Weaver:</strong>{" "}
+              {machine.Weaver ? (
+                <span className="text-green-600 font-medium">
+                  {machine.Weaver.name}
+                </span>
+              ) : (
+                <span className="text-red-500 font-medium">
+                  No Weaver Assigned
+                </span>
+              )}
             </h2>
-            <h4>
-              <strong>Type: </strong>
-              {machine.Type}
+
+            {/* Machine Type */}
+            <h4 className="text-lg text-gray-700 mb-2">
+              <strong className="text-gray-800">Type:</strong> {machine.Type}
             </h4>
-            <p>
-              <strong>Model:</strong> {machine.Model}
-            </p>
-            <p>
-              <strong>Material:</strong> {machine.MaterialTypeLoaded}
-            </p>
-            <p>
-              <strong>Quantity:</strong> {machine.MaterialQuantity} kg
-            </p>
-            <p>
-              <strong>Loaded Date :</strong> {machine.LoadingDate}
-            </p>
-            <p>
-              <strong>Maintenance Cost:</strong> {machine.MaintenanceCost} EGP
-            </p>
+
+            {/* Machine Details */}
+            <div className="text-gray-600 space-y-2">
+              <p>
+                <strong className="text-gray-800">Model:</strong>{" "}
+                {machine.Model}
+              </p>
+              <p>
+                <strong className="text-gray-800">Material:</strong>{" "}
+                {machine.MaterialTypeLoaded}
+              </p>
+              <p>
+                <strong className="text-gray-800">Quantity:</strong>{" "}
+                {machine.MaterialQuantity} kg
+              </p>
+              <p>
+                <strong className="text-gray-800">Loaded Date:</strong>{" "}
+                {machine.LoadingDate}
+              </p>
+              <p>
+                <strong className="text-gray-800">Maintenance Cost:</strong>{" "}
+                {machine.MaintenanceCost} EGP
+              </p>
+            </div>
           </div>
         )}
 
