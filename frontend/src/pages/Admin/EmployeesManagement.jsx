@@ -43,7 +43,11 @@ const EmployeesManagement = () => {
   }, [backendUrl]);
 
   const handleEdit = (id) => {
-    navigate(`/admin/employees/edit-employee/${id}`);
+    const editPath =
+      activeTab === "Weavers"
+        ? `/admin/employees/edit-weaver/${id}`
+        : `/admin/employees/edit-administrator/${id}`;
+    navigate(editPath);
   };
 
   const handleDelete = async (id, type) => {
@@ -53,7 +57,7 @@ const EmployeesManagement = () => {
         setWeavers((prev) => prev.filter((employee) => employee._id !== id));
       } else if (type === "Administrators") {
         await axios.delete(
-          `${backendUrl}/admin/employees/administrators/${id}`
+          `${backendUrl}/admin/employees/delete-administrator/${id}`
         );
         setAdministrators((prev) =>
           prev.filter((employee) => employee._id !== id)
@@ -65,7 +69,11 @@ const EmployeesManagement = () => {
   };
 
   const handleAddEmployee = (employeeType) => {
-    navigate(`/admin/employees/add-${employeeType.slice(0, -1).toLowerCase()}`);
+    const addPath =
+      employeeType === "Weavers"
+        ? "/admin/employees/add-weaver"
+        : "/admin/employees/add-administrator";
+    navigate(addPath);
   };
 
   const renderEmployees = () => {
@@ -73,7 +81,6 @@ const EmployeesManagement = () => {
 
     return employees.map((employee) => (
       <div key={employee._id} className="bg-white p-6 rounded-lg shadow-md">
-        {/* Render specific attributes based on the employee type */}
         {activeTab === "Weavers" && (
           <div>
             <p>
@@ -105,7 +112,6 @@ const EmployeesManagement = () => {
           </div>
         )}
 
-        {/* Edit and Delete Buttons */}
         <div className="flex justify-between mt-4">
           <button
             onClick={() => handleEdit(employee._id)}
@@ -130,7 +136,6 @@ const EmployeesManagement = () => {
         Employees Management
       </h1>
 
-      {/* Tabs */}
       <div className="flex justify-center space-x-4 mb-8">
         {["Weavers", "Administrators"].map((tab) => (
           <button
@@ -147,7 +152,6 @@ const EmployeesManagement = () => {
         ))}
       </div>
 
-      {/* Add Employee Button for Active Tab */}
       <div className="flex justify-end mb-4">
         <button
           onClick={() => handleAddEmployee(activeTab)}
@@ -157,7 +161,6 @@ const EmployeesManagement = () => {
         </button>
       </div>
 
-      {/* Employees List for Active Tab */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {renderEmployees()}
       </div>
