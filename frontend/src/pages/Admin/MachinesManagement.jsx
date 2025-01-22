@@ -106,12 +106,28 @@ const MachinesManagement = () => {
             <h3 className="text-xl font-semibold text-blue-600 mb-4">
               NOL {machine.Number}
             </h3>
-            <h4 className="font-semibold">Type: {machine.Type}</h4>
-            <p>Model: {machine.Model}</p>
-            <p>Material: {machine.MaterialTypeLoaded}</p>
-            <p>Quantity: {machine.MaterialQuantity} kg</p>
-            <p>Loaded Date : {machine.LoadingDate}</p>
-            <p>Maintenance Cost: {machine.MaintenanceCost} EGP</p>
+            <h2>
+              <strong>Weaver:</strong> {machine.Weaver.name}
+            </h2>
+            <h4>
+              <strong>Type: </strong>
+              {machine.Type}
+            </h4>
+            <p>
+              <strong>Model:</strong> {machine.Model}
+            </p>
+            <p>
+              <strong>Material:</strong> {machine.MaterialTypeLoaded}
+            </p>
+            <p>
+              <strong>Quantity:</strong> {machine.MaterialQuantity} kg
+            </p>
+            <p>
+              <strong>Loaded Date :</strong> {machine.LoadingDate}
+            </p>
+            <p>
+              <strong>Maintenance Cost:</strong> {machine.MaintenanceCost} EGP
+            </p>
           </div>
         )}
 

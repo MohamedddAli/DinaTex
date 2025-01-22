@@ -2,14 +2,6 @@ const Machine = require("../models/Machine");
 const MachineTypes = require("../models/MachineTypes");
 const WeavingMachine = require("../models/WeavingMachine");
 
-const formatDate = (date) => {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}/${month}/${day}`;
-};
-
 exports.getMachines = async (req, res) => {
   try {
     const machines = await Machine.find();
@@ -77,6 +69,7 @@ exports.addWeavingMachine = async (req, res) => {
       MaterialQuantity,
       LoadingDate,
       MaintenanceCost,
+      Weaver,
     } = req.body;
 
     if (!Number || !Type || !Model || !MaterialTypeLoaded || !LoadingDate) {
@@ -94,9 +87,11 @@ exports.addWeavingMachine = async (req, res) => {
       MaterialQuantity,
       LoadingDate,
       MaintenanceCost,
+      Weaver,
     });
 
     await newMachine.save();
+
     res.status(201).json({
       message: "Weaving Machine added successfully!",
       machine: newMachine,
@@ -109,7 +104,8 @@ exports.addWeavingMachine = async (req, res) => {
 
 exports.getAllWeavingMachines = async (req, res) => {
   try {
-    const weavingMachines = await WeavingMachine.find();
+    const weavingMachines = await WeavingMachine.find().populate("Weaver");
+
     res.status(200).json(weavingMachines);
   } catch (error) {
     console.error("Error getting weaving machines:", error);
@@ -166,10 +162,18 @@ exports.editWeavingMachine = async (req, res) => {
       MaterialQuantity,
       LoadingDate,
       MaintenanceCost,
+      Weaver,
     } = req.body;
 
     // Validate required fields
-    if (!Number || !Type || !Model || !MaterialTypeLoaded || !LoadingDate) {
+    if (
+      !Number ||
+      !Type ||
+      !Model ||
+      !MaterialTypeLoaded ||
+      !LoadingDate ||
+      !Weaver
+    ) {
       return res
         .status(400)
         .json({ message: "All required fields must be filled" });
@@ -183,6 +187,7 @@ exports.editWeavingMachine = async (req, res) => {
     machine.MaterialQuantity = MaterialQuantity || machine.MaterialQuantity; // Optional
     machine.LoadingDate = LoadingDate;
     machine.MaintenanceCost = MaintenanceCost || machine.MaintenanceCost; // Optional
+    machine.Weaver = Weaver || machine.Weaver; // Optional
 
     // Save the updated machine
     const updatedMachine = await machine.save();

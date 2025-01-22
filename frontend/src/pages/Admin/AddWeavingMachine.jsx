@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,9 @@ const AddWeavingMachine = () => {
     MaterialQuantity: "",
     LoadingDate: "",
     MaintenanceCost: "",
+    Weaver: "", // new field for selected weaver ID
   });
+  const [weavers, setWeavers] = useState([]);
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -34,6 +36,20 @@ const AddWeavingMachine = () => {
       alert("Failed to add weaving machine. Please try again.");
     }
   };
+
+  useEffect(() => {
+    const fetchWeavers = async () => {
+      try {
+        const response = await axios.get(
+          `${backendUrl}/admin/employees/get-weavers`
+        );
+        setWeavers(response.data);
+      } catch (error) {
+        console.error("Error fetching weavers:", error);
+      }
+    };
+    fetchWeavers();
+  }, [backendUrl]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -64,11 +80,11 @@ const AddWeavingMachine = () => {
 
         {/* Machine Type */}
         <div className="mb-4">
-          <label htmlFor="Number" className="block text-lg font-semibold mb-2">
+          <label htmlFor="Type" className="block text-lg font-semibold mb-2">
             Machine Type
           </label>
           <input
-            type="type"
+            type="text"
             id="Type"
             name="Type"
             value={formData.Type}
@@ -173,6 +189,28 @@ const AddWeavingMachine = () => {
             placeholder="Enter maintenance cost"
             className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
+        </div>
+
+        {/* Weaver Dropdown */}
+        <div className="mb-4">
+          <label htmlFor="weaver" className="block text-lg font-semibold mb-2">
+            Select Weaver
+          </label>
+          <select
+            id="Weaver"
+            name="Weaver"
+            value={formData.Weaver}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required
+          >
+            <option value="">Select a weaver</option>
+            {weavers.map((weaver) => (
+              <option key={weaver._id} value={weaver._id}>
+                {weaver.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Submit Button */}

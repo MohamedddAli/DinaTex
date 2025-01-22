@@ -15,7 +15,7 @@ const weavingMachineSchema = new mongoose.Schema({
     },
   ],
   MaintenanceCost: { type: Number, default: 0 },
-  Weaver: { type: mongoose.Schema.Types.ObjectId, ref: Weaver },
+  Weaver: { type: mongoose.Schema.Types.ObjectId, ref: "Weaver" },
 });
 
 const WeavingMachine = mongoose.model("WeavingMachine", weavingMachineSchema);

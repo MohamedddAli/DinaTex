@@ -15,22 +15,36 @@ const EditWeavingMachine = () => {
     MaterialQuantity: "",
     LoadingDate: "",
     MaintenanceCost: "",
+    Weaver: "", // Add Weaver ID to formData
   });
+  const [weavers, setWeavers] = useState([]); // State for storing weavers
 
-  // Fetch the machine data on component mount
+  // Fetch the machine data and weavers on component mount
   useEffect(() => {
     const fetchMachineData = async () => {
       try {
         const response = await axios.get(
           `${backendUrl}/admin/machines/weaving-machines/${id}`
         );
-        setFormData(response.data);
+        setFormData(response.data); // Set the fetched machine data
       } catch (error) {
         console.error("Error fetching machine data:", error);
       }
     };
 
+    const fetchWeavers = async () => {
+      try {
+        const response = await axios.get(
+          `${backendUrl}/admin/employees/get-weavers`
+        );
+        setWeavers(response.data); // Set the fetched weavers
+      } catch (error) {
+        console.error("Error fetching weavers:", error);
+      }
+    };
+
     fetchMachineData();
+    fetchWeavers();
   }, [id]);
 
   // Handle input changes
@@ -43,7 +57,7 @@ const EditWeavingMachine = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      await axios.put(
         `${backendUrl}/admin/machines/weaving-machines/${id}`,
         formData
       );
@@ -160,6 +174,24 @@ const EditWeavingMachine = () => {
             className="w-full p-3 border rounded-lg"
             required
           />
+        </div>
+
+        {/* Weaver Dropdown */}
+        <div className="mb-4">
+          <label className="block font-semibold mb-2">Select Weaver</label>
+          <select
+            name="Weaver"
+            value={formData.Weaver}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg"
+          >
+            <option value="">Select a Weaver</option>
+            {weavers.map((weaver) => (
+              <option key={weaver._id} value={weaver._id}>
+                {weaver.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Save Button */}

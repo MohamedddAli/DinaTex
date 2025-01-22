@@ -29,6 +29,6 @@ router.delete("/weaving-machines/:id", deleteWeavingMachine);
 
 router.get("/weaving-machines/:id", getWeavingMachineByID);
 
-router.post("/weaving-machines/:id", editWeavingMachine);
+router.put("/weaving-machines/:id", editWeavingMachine);
 
 module.exports = router;
