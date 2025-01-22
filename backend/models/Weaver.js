@@ -19,11 +19,9 @@ const WeaverSchema = new mongoose.Schema({
   },
   attendance: {
     type: Number,
-    required: true,
   },
   rating: {
     type: Number,
-    required: true,
   },
 });
 

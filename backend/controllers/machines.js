@@ -1,7 +1,6 @@
 const Machine = require("../models/Machine");
 const MachineTypes = require("../models/MachineTypes");
 const WeavingMachine = require("../models/WeavingMachine");
-const moment = require("moment");
 
 const formatDate = (date) => {
   const d = new Date(date);

@@ -100,13 +100,12 @@ const MachinesManagement = () => {
 
     return machines.map((machine) => (
       <div key={machine._id} className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-xl font-semibold text-blue-600 mb-4">
-          NOL {machine.Number}
-        </h3>
-
         {/* Render machine-specific details */}
         {activeTab === "WeavingMachine" && (
           <div>
+            <h3 className="text-xl font-semibold text-blue-600 mb-4">
+              NOL {machine.Number}
+            </h3>
             <h4 className="font-semibold">Type: {machine.Type}</h4>
             <p>Model: {machine.Model}</p>
             <p>Material: {machine.MaterialTypeLoaded}</p>
