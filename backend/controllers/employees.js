@@ -15,7 +15,10 @@ exports.addWeaver = async (req, res) => {
 
 exports.getAllWeavers = async (req, res) => {
   try {
-    const weavers = await Weaver.find();
+    // Fetch all weavers and populate the assignedMachines field
+    const weavers = await Weaver.find().populate("assignedMachines");
+
+    // Respond with the weavers data including the populated assignedMachines
     res.status(200).json(weavers);
   } catch (error) {
     console.error("Error getting weavers:", error);
@@ -39,7 +42,7 @@ exports.getWeaverById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const weaver = await Weaver.findById(id);
+    const weaver = await Weaver.findById(id).populate("assignedMachines");
     if (!weaver) {
       return res.status(404).json({ message: "Weaver not found" });
     }

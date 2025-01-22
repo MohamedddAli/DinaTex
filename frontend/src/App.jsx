@@ -13,6 +13,7 @@ import AddWeavingMachine from "./pages/Admin/AddWeavingMachine";
 import EditWeavingMachine from "./pages/Admin/EditWeavingMachine";
 import AddWeaver from "./pages/Admin/AddWeaver";
 import EditWeaver from "./pages/Admin/EditWeaver";
+import ViewWeaverInfo from "./pages/Admin/ViewWeaverInfo";
 
 const App = () => {
   return (
@@ -25,6 +26,10 @@ const App = () => {
 
       {/* Subroutes under /admin */}
       <Route path="/admin/employees" element={<EmployeesManagement />} />
+      <Route
+        path="/admin/employees/view-weaver-info/:id"
+        element={<ViewWeaverInfo />}
+      />
       <Route path="/admin/employees/add-weaver" element={<AddWeaver />} />
       <Route path="/admin/employees/edit-weaver/:id" element={<EditWeaver />} />
       <Route path="/admin/machines" element={<MachinesManagement />} />

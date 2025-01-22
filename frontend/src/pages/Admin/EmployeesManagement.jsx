@@ -95,6 +95,27 @@ const EmployeesManagement = () => {
             <p>
               <strong>Years Of Experience:</strong> {employee.yearsOfExperience}
             </p>
+
+            {/* Display assigned machines */}
+            <div>
+              <strong>Assigned Machines:</strong>
+              {employee.assignedMachines &&
+              employee.assignedMachines.length > 0 ? (
+                <ul>
+                  {employee.assignedMachines.map((machine) => (
+                    <li key={machine._id}>
+                      <p className="ml-5">
+                        <strong>Machine Number:</strong> {machine.Number}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-red-700 ml-4">
+                  <strong>No machines assigned</strong>
+                </p>
+              )}
+            </div>
           </div>
         )}
 

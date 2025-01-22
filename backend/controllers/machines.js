@@ -1,6 +1,7 @@
 const Machine = require("../models/Machine");
 const MachineTypes = require("../models/MachineTypes");
 const WeavingMachine = require("../models/WeavingMachine");
+const WeaverEmployee = require("../models/Weaver");
 
 exports.getMachines = async (req, res) => {
   try {
@@ -69,16 +70,23 @@ exports.addWeavingMachine = async (req, res) => {
       MaterialQuantity,
       LoadingDate,
       MaintenanceCost,
-      Weaver,
+      Weaver, // Weaver ID
     } = req.body;
 
-    if (!Number || !Type || !Model || !MaterialTypeLoaded || !LoadingDate) {
+    if (
+      !Number ||
+      !Type ||
+      !Model ||
+      !MaterialTypeLoaded ||
+      !LoadingDate ||
+      !Weaver
+    ) {
       return res
         .status(400)
         .json({ message: "All required fields must be filled" });
     }
 
-    // Create a new machine
+    // Create a new weaving machine
     const newMachine = new WeavingMachine({
       Number,
       Type,
@@ -92,8 +100,19 @@ exports.addWeavingMachine = async (req, res) => {
 
     await newMachine.save();
 
+    // Add the new machine ID to the weaver's assignedMachines array
+    const weaver = await WeaverEmployee.findById(Weaver);
+
+    if (!weaver) {
+      return res.status(404).json({ message: "Weaver not found" });
+    }
+
+    // Push the new machine ID into the assignedMachines array
+    weaver.assignedMachines.push(newMachine._id);
+    await weaver.save();
+
     res.status(201).json({
-      message: "Weaving Machine added successfully!",
+      message: "Weaving Machine added successfully and assigned to the weaver!",
       machine: newMachine,
     });
   } catch (error) {
@@ -115,15 +134,29 @@ exports.getAllWeavingMachines = async (req, res) => {
 
 exports.deleteWeavingMachine = async (req, res) => {
   const { id } = req.params; // Now receiving _id as 'id'
+
   try {
     // Check if the machine exists using the id
     const existingMachine = await WeavingMachine.findById(id);
     if (!existingMachine) {
       return res.status(404).json({ message: "Machine not found" });
     }
+
+    // Remove the machine ID from the associated weaver's assignedMachines array
+    if (existingMachine.Weaver) {
+      const weaver = await WeaverEmployee.findById(existingMachine.Weaver);
+      if (weaver) {
+        weaver.assignedMachines = weaver.assignedMachines.filter(
+          (machineId) => machineId.toString() !== id
+        );
+        await weaver.save();
+      }
+    }
+
     // Delete the machine by _id
     await WeavingMachine.deleteOne({ _id: id });
-    res.status(200).json({ message: "Machine deleted" });
+
+    res.status(200).json({ message: "Machine deleted and weaver updated" });
   } catch (error) {
     console.error("Error deleting machine:", error);
     res.status(500).json({ message: "Server Error", error: error.message });
@@ -162,7 +195,7 @@ exports.editWeavingMachine = async (req, res) => {
       MaterialQuantity,
       LoadingDate,
       MaintenanceCost,
-      Weaver,
+      Weaver, // The new Weaver ID
     } = req.body;
 
     // Validate required fields
@@ -179,6 +212,19 @@ exports.editWeavingMachine = async (req, res) => {
         .json({ message: "All required fields must be filled" });
     }
 
+    // Check if the Weaver is changing
+    if (machine.Weaver.toString() !== Weaver) {
+      // Remove the machine number from the old Weaver's assignedMachines array
+      await WeaverEmployee.findByIdAndUpdate(machine.Weaver, {
+        $pull: { assignedMachines: machine._id }, // Remove this machine from the old weaver
+      });
+
+      // Add the machine number to the new Weaver's assignedMachines array
+      await WeaverEmployee.findByIdAndUpdate(Weaver, {
+        $push: { assignedMachines: machine._id }, // Add this machine to the new weaver
+      });
+    }
+
     // Update machine properties
     machine.Number = Number;
     machine.Type = Type;
@@ -187,7 +233,7 @@ exports.editWeavingMachine = async (req, res) => {
     machine.MaterialQuantity = MaterialQuantity || machine.MaterialQuantity; // Optional
     machine.LoadingDate = LoadingDate;
     machine.MaintenanceCost = MaintenanceCost || machine.MaintenanceCost; // Optional
-    machine.Weaver = Weaver || machine.Weaver; // Optional
+    machine.Weaver = Weaver; // Update the Weaver field
 
     // Save the updated machine
     const updatedMachine = await machine.save();

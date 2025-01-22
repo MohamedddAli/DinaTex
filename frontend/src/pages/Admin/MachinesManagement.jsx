@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const MachinesManagement = () => {
   const [weavingMachines, setWeavingMachines] = useState([]);
@@ -113,7 +114,12 @@ const MachinesManagement = () => {
               <strong className="text-gray-800">Weaver:</strong>{" "}
               {machine.Weaver ? (
                 <span className="text-green-600 font-medium">
-                  {machine.Weaver.name}
+                  <Link
+                    to={`/admin/employees/view-weaver-info/${machine.Weaver._id}`} // Replace with your desired route
+                    className="text-blue-600 hover:underline font-medium"
+                  >
+                    {machine.Weaver.name}
+                  </Link>
                 </span>
               ) : (
                 <span className="text-red-500 font-medium">

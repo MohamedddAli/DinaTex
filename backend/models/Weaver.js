@@ -23,6 +23,9 @@ const WeaverSchema = new mongoose.Schema({
   rating: {
     type: Number,
   },
+  assignedMachines: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "WeavingMachine" },
+  ],
 });
 
 const Weaver = mongoose.model("Weaver", WeaverSchema);
