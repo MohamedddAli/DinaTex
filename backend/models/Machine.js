@@ -1,37 +1,11 @@
 const mongoose = require("mongoose");
 
 const machineSchema = new mongoose.Schema({
-  type: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "MachineTypes",
-    required: true,
-  },
-  // Machine-specific fields based on type
-  WeavingMachineData: {
-    Number: { type: Number },
-    Type: { type: String },
-    Model: { type: String },
-    MaterialTypeLoaded: { type: String },
-    MaterialQuantity: { type: Number },
-    LoadingDate: { type: Date },
-    Maintenances: [
-      {
-        date: { type: Date },
-        description: { type: String },
-      },
-    ],
-    MaintenanceCost: { type: Number, default: 0 },
-  },
-  MatwaData: {
-    weight: { type: Number },
-    engineType: { type: String },
-    // Other fields specific to type2
-  },
-  SadayaData: {
-    maxSpeed: { type: Number },
-    material: { type: String },
-    // Other fields specific to type3
-  },
+  weavingMachines: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "WeavingMachine" },
+  ],
+  Sadaya: [{ type: mongoose.Schema.Types.ObjectId, ref: "Sadaya" }],
+  Matwa: [{ type: mongoose.Schema.Types.ObjectId, ref: "Matwa" }],
 });
 
 const Machine = mongoose.model("Machine", machineSchema);

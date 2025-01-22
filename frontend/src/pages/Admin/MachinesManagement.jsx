@@ -4,39 +4,150 @@ import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
 const MachinesManagement = () => {
-  const [machines, setMachines] = useState([]);
+  const [weavingMachines, setWeavingMachines] = useState([]);
+  const [matwaMachines, setMatwaMachines] = useState([]);
+  const [sadayaMachines, setSadayaMachines] = useState([]);
+  const [activeTab, setActiveTab] = useState("WeavingMachine"); // Active tab state
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
+  // Fetch data for Weaving Machines
   useEffect(() => {
-    // Fetch all machines data from the backend
-    const fetchMachines = async () => {
+    const fetchWeavingMachines = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/admin/machines`); // Adjust the URL as necessary
-        setMachines(response.data);
+        const response = await axios.get(
+          `${backendUrl}/admin/machines/weaving-machines`
+        );
+        setWeavingMachines(response.data);
       } catch (error) {
-        console.error("Error fetching machines:", error);
+        console.error("Error fetching weaving machines:", error);
       }
     };
 
-    fetchMachines();
-  }, []);
+    fetchWeavingMachines();
+  }, [backendUrl]);
+
+  // Fetch data for Matwa Machines
+  useEffect(() => {
+    const fetchMatwaMachines = async () => {
+      try {
+        const response = await axios.get(
+          `${backendUrl}/admin/machines/matwa-machines`
+        );
+        setMatwaMachines(response.data);
+      } catch (error) {
+        console.error("Error fetching matwa machines:", error);
+      }
+    };
+
+    fetchMatwaMachines();
+  }, [backendUrl]);
+
+  // Fetch data for Sadaya Machines
+  useEffect(() => {
+    const fetchSadayaMachines = async () => {
+      try {
+        const response = await axios.get(
+          `${backendUrl}/admin/machines/sadaya-machines`
+        );
+        setSadayaMachines(response.data);
+      } catch (error) {
+        console.error("Error fetching sadaya machines:", error);
+      }
+    };
+
+    fetchSadayaMachines();
+  }, [backendUrl]);
 
   const handleEdit = (id) => {
     navigate(`/admin/machines/edit/${id}`);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, type) => {
     try {
-      await axios.delete(`/api/machines/${id}`); // Adjust the URL as necessary
-      setMachines(machines.filter((machine) => machine._id !== id)); // Remove deleted machine from state
+      if (type === "WeavingMachine") {
+        await axios.delete(
+          `${backendUrl}/admin/machines/weaving-machines/${id}`
+        );
+        setWeavingMachines((prev) =>
+          prev.filter((machine) => machine._id !== id)
+        );
+      } else if (type === "Matwa") {
+        setMatwaMachines((prev) =>
+          prev.filter((machine) => machine._id !== id)
+        );
+      } else if (type === "Sadaya") {
+        setSadayaMachines((prev) =>
+          prev.filter((machine) => machine._id !== id)
+        );
+      }
     } catch (error) {
       console.error("Error deleting machine:", error);
     }
   };
 
-  const handleAddMachine = () => {
-    navigate("/admin/machines/add-machine");
+  const handleAddMachine = (machineType) => {
+    navigate(`/admin/machines/add-${machineType.toLowerCase()}`);
+  };
+
+  const renderMachines = () => {
+    const machines =
+      activeTab === "WeavingMachine"
+        ? weavingMachines
+        : activeTab === "Matwa"
+        ? matwaMachines
+        : sadayaMachines;
+
+    return machines.map((machine) => (
+      <div key={machine._id} className="bg-white p-6 rounded-lg shadow-md">
+        <h3 className="text-xl font-semibold text-blue-600 mb-4">
+          NOL {machine.Number}
+        </h3>
+
+        {/* Render machine-specific details */}
+        {activeTab === "WeavingMachine" && (
+          <div>
+            <h4 className="font-semibold">Model: {machine.Model}</h4>
+            <p>Material: {machine.MaterialTypeLoaded}</p>
+            <p>Quantity: {machine.MaterialQuantity} kg</p>
+            <p>Loaded Date : {machine.LoadingDate}</p>
+            <p>Maintenance Cost: {machine.MaintenanceCost} EGP</p>
+          </div>
+        )}
+
+        {activeTab === "Matwa" && (
+          <div>
+            <h4 className="font-semibold">Engine Type: {machine.engineType}</h4>
+            <p>Weight: {machine.weight} kg</p>
+          </div>
+        )}
+
+        {activeTab === "Sadaya" && (
+          <div>
+            <h4 className="font-semibold">
+              Max Speed: {machine.maxSpeed} km/h
+            </h4>
+            <p>Material: {machine.material}</p>
+          </div>
+        )}
+
+        {/* Edit and Delete Buttons */}
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={() => handleEdit(machine._id)}
+            className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200"
+          >
+            <FaEdit className="mr-2" /> Edit
+          </button>
+          <button
+            onClick={() => handleDelete(machine._id, activeTab)}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200"
+          >
+            <FaTrash className="mr-2" /> Delete
+          </button>
+        </div>
+      </div>
+    ));
   };
 
   return (
@@ -45,78 +156,36 @@ const MachinesManagement = () => {
         Machines Management
       </h1>
 
-      {/* Add Machine Button */}
+      {/* Tabs */}
+      <div className="flex justify-center space-x-4 mb-8">
+        {["WeavingMachine", "Matwa", "Sadaya"].map((tab) => (
+          <button
+            key={tab}
+            className={`px-6 py-2 font-bold text-lg rounded-lg ${
+              activeTab === tab
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700"
+            } hover:bg-blue-500 hover:text-white transition duration-200`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      {/* Add Machine Button for Active Tab */}
       <div className="flex justify-end mb-4">
         <button
-          onClick={handleAddMachine}
+          onClick={() => handleAddMachine(activeTab)}
           className="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition duration-200 flex items-center"
         >
-          <FaPlus className="mr-2" /> Add New Machine
+          <FaPlus className="mr-2" /> Add {activeTab}
         </button>
       </div>
 
-      {/* Machines List */}
+      {/* Machines List for Active Tab */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {machines.map((machine) => (
-          <div key={machine._id} className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold text-blue-600 mb-4">
-              {machine.type}
-            </h3>
-
-            {/* Conditional Rendering Based on Machine Type */}
-            {machine.type === "WeavingMachine" && (
-              <div>
-                <h4 className="font-semibold">
-                  Model: {machine.WeavingMachineData.Model}
-                </h4>
-                <p>Material: {machine.WeavingMachineData.MaterialTypeLoaded}</p>
-                <p>
-                  Quantity: {machine.WeavingMachineData.MaterialQuantity} kg
-                </p>
-                <p>
-                  Maintenance Cost: $
-                  {machine.WeavingMachineData.MaintenanceCost}
-                </p>
-              </div>
-            )}
-
-            {machine.type === "Matwa" && (
-              <div>
-                <h4 className="font-semibold">
-                  Engine Type: {machine.MatwaData.engineType}
-                </h4>
-                <p>Weight: {machine.MatwaData.weight} kg</p>
-                {/* Other specific fields for Matwa */}
-              </div>
-            )}
-
-            {machine.type === "Sadaya" && (
-              <div>
-                <h4 className="font-semibold">
-                  Max Speed: {machine.SadayaData.maxSpeed} km/h
-                </h4>
-                <p>Material: {machine.SadayaData.material}</p>
-                {/* Other specific fields for Sadaya */}
-              </div>
-            )}
-
-            {/* Edit and Delete Buttons */}
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={() => handleEdit(machine._id)}
-                className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200"
-              >
-                <FaEdit className="mr-2" /> Edit
-              </button>
-              <button
-                onClick={() => handleDelete(machine._id)}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200"
-              >
-                <FaTrash className="mr-2" /> Delete
-              </button>
-            </div>
-          </div>
-        ))}
+        {renderMachines()}
       </div>
     </div>
   );

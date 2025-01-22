@@ -9,6 +9,7 @@ import SparePartsInventory from "./pages/Inventory/SparePartsInventory";
 import TextileInventory from "./pages/Inventory/TextileInventory";
 import AddMachine from "./pages/Admin/AddMachine";
 import MachineTypes from "./pages/Admin/MachineTypes";
+import AddWeavingMachine from "./pages/Admin/AddWeavingMachine";
 
 const App = () => {
   return (
@@ -22,6 +23,10 @@ const App = () => {
       {/* Subroutes under /admin */}
       <Route path="/admin/employees" element={<EmployeesManagement />} />
       <Route path="/admin/machines" element={<MachinesManagement />} />
+      <Route
+        path="/admin/machines/add-weavingmachine"
+        element={<AddWeavingMachine />}
+      />
       <Route path="/admin/machines/add-machine" element={<AddMachine />} />
       <Route path="/admin/spare-parts" element={<SparePartsInventory />} />
       <Route path="/admin/textile-inventory" element={<TextileInventory />} />
