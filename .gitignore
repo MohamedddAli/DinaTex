@@ -1,0 +1,40 @@
+# Node modules
+/node_modules/
+
+# Build output directories
+/dist/
+/build/
+
+# Vite and React related
+/.vite/
+/.vite/
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files (both frontend and backend)
+*.env
+*.env.*    # To ignore any other environment-specific files like .env.development, .env.production, etc.
+
+/*.env         # If your frontend and backend are in separate folders and you want to ignore only specific ones
+
+# Dependency directories
+/front-end/node_modules/
+/back-end/node_modules/
+
+# IDE/editor related files
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# Operating system related files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.tgz
