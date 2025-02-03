@@ -128,7 +128,10 @@ const SparePartsInventory = () => {
         </div>
 
         {/* Add Spare Part Form */}
-        <form onSubmit={addSparePart} className="mb-6 flex space-x-4">
+        <form
+          onSubmit={addSparePart}
+          className="mb-6 flex flex-wrap space-x-4 gap-4"
+        >
           <input
             type="text"
             name="name"
@@ -144,12 +147,12 @@ const SparePartsInventory = () => {
             placeholder="Quantity"
             value={newPart.quantity}
             onChange={handleInputChange}
-            className="p-2 border rounded-md w-24"
+            className="p-2 border rounded-md w-full sm:w-24"
             required
           />
           <button
             type="submit"
-            className="px-4 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-700 transition"
+            className="px-4 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-700 transition w-full sm:w-auto"
           >
             Add
           </button>
@@ -161,7 +164,7 @@ const SparePartsInventory = () => {
             No matching spare parts found.
           </p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-4 overflow-x-auto">
             {filteredParts.map((part) => (
               <li
                 key={part._id}

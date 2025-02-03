@@ -74,6 +74,11 @@ const MachinesManagement = () => {
   };
 
   const handleDelete = async (id, type) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this machine?"
+    );
+    if (!confirmDelete) return; // If user cancels, exit the function
+
     try {
       if (type === "WeavingMachine") {
         await axios.delete(
@@ -227,11 +232,11 @@ const MachinesManagement = () => {
       </h1>
 
       {/* Tabs */}
-      <div className="flex flex-wrap justify-center space-x-4 mb-8">
+      <div className="overflow-x-scroll whitespace-nowrap mb-8">
         {["WeavingMachine", "Matwa", "Sadaya"].map((tab) => (
           <button
             key={tab}
-            className={`px-4 py-2 font-bold text-base sm:text-lg rounded-lg ${
+            className={`px-4 py-2 font-bold text-base sm:text-lg rounded-lg inline-block ${
               activeTab === tab
                 ? "bg-blue-600 text-white"
                 : "bg-gray-200 text-gray-700"
