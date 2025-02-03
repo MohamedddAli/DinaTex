@@ -8,6 +8,9 @@ const MachinesManagement = () => {
   const [weavingMachines, setWeavingMachines] = useState([]);
   const [matwaMachines, setMatwaMachines] = useState([]);
   const [sadayaMachines, setSadayaMachines] = useState([]);
+  const [isLoadingWeaving, setIsLoadingWeaving] = useState(true);
+  const [isLoadingMatwa, setIsLoadingMatwa] = useState(true);
+  const [isLoadingSadaya, setIsLoadingSadaya] = useState(true);
   const [activeTab, setActiveTab] = useState("WeavingMachine"); // Active tab state
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -15,6 +18,7 @@ const MachinesManagement = () => {
   // Fetch data for Weaving Machines
   useEffect(() => {
     const fetchWeavingMachines = async () => {
+      setIsLoadingWeaving(true);
       try {
         const response = await axios.get(
           `${backendUrl}/admin/machines/weaving-machines`
@@ -23,6 +27,7 @@ const MachinesManagement = () => {
       } catch (error) {
         console.error("Error fetching weaving machines:", error);
       }
+      setIsLoadingWeaving(false);
     };
 
     fetchWeavingMachines();
@@ -31,6 +36,7 @@ const MachinesManagement = () => {
   // Fetch data for Matwa Machines
   useEffect(() => {
     const fetchMatwaMachines = async () => {
+      setIsLoadingMatwa(true);
       try {
         const response = await axios.get(
           `${backendUrl}/admin/machines/matwa-machines`
@@ -39,6 +45,7 @@ const MachinesManagement = () => {
       } catch (error) {
         console.error("Error fetching matwa machines:", error);
       }
+      setIsLoadingMatwa(false);
     };
 
     fetchMatwaMachines();
@@ -47,6 +54,7 @@ const MachinesManagement = () => {
   // Fetch data for Sadaya Machines
   useEffect(() => {
     const fetchSadayaMachines = async () => {
+      setIsLoadingSadaya(true);
       try {
         const response = await axios.get(
           `${backendUrl}/admin/machines/sadaya-machines`
@@ -55,6 +63,7 @@ const MachinesManagement = () => {
       } catch (error) {
         console.error("Error fetching sadaya machines:", error);
       }
+      setIsLoadingSadaya(false);
     };
 
     fetchSadayaMachines();
@@ -98,6 +107,23 @@ const MachinesManagement = () => {
         : activeTab === "Matwa"
         ? matwaMachines
         : sadayaMachines;
+
+    const isLoading =
+      activeTab === "WeavingMachine"
+        ? isLoadingWeaving
+        : activeTab === "Matwa"
+        ? isLoadingMatwa
+        : isLoadingSadaya;
+
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center w-full">
+          <p className="text-center text-lg text-blue-600 font-semibold animate-pulse">
+            Loading {activeTab} Machines...
+          </p>
+        </div>
+      );
+    }
 
     return machines.map((machine) => (
       <div key={machine._id} className="bg-white p-6 rounded-lg shadow-md">
@@ -201,11 +227,11 @@ const MachinesManagement = () => {
       </h1>
 
       {/* Tabs */}
-      <div className="flex justify-center space-x-4 mb-8">
+      <div className="flex flex-wrap justify-center space-x-4 mb-8">
         {["WeavingMachine", "Matwa", "Sadaya"].map((tab) => (
           <button
             key={tab}
-            className={`px-6 py-2 font-bold text-lg rounded-lg ${
+            className={`px-4 py-2 font-bold text-base sm:text-lg rounded-lg ${
               activeTab === tab
                 ? "bg-blue-600 text-white"
                 : "bg-gray-200 text-gray-700"

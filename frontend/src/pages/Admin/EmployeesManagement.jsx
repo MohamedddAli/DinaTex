@@ -6,6 +6,8 @@ import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 const EmployeesManagement = () => {
   const [weavers, setWeavers] = useState([]);
   const [administrators, setAdministrators] = useState([]);
+  const [isLoadingWeavers, setIsLoadingWeavers] = useState(true);
+  const [isLoadingAdministrators, setIsLoadingAdministrators] = useState(true);
   const [activeTab, setActiveTab] = useState("Weavers"); // Active tab state
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -13,6 +15,7 @@ const EmployeesManagement = () => {
   // Fetch data for Weavers
   useEffect(() => {
     const fetchWeavers = async () => {
+      setIsLoadingWeavers(true);
       try {
         const response = await axios.get(
           `${backendUrl}/admin/employees/get-weavers`
@@ -21,6 +24,7 @@ const EmployeesManagement = () => {
       } catch (error) {
         console.error("Error fetching weavers:", error);
       }
+      setIsLoadingWeavers(false);
     };
 
     fetchWeavers();
@@ -29,6 +33,7 @@ const EmployeesManagement = () => {
   // Fetch data for Administrators
   useEffect(() => {
     const fetchAdministrators = async () => {
+      setIsLoadingAdministrators(true);
       try {
         const response = await axios.get(
           `${backendUrl}/admin/employees/administrators`
@@ -37,6 +42,7 @@ const EmployeesManagement = () => {
       } catch (error) {
         console.error("Error fetching administrators:", error);
       }
+      setIsLoadingAdministrators(false);
     };
 
     fetchAdministrators();
@@ -78,6 +84,26 @@ const EmployeesManagement = () => {
 
   const renderEmployees = () => {
     const employees = activeTab === "Weavers" ? weavers : administrators;
+    const isLoading =
+      activeTab === "Weavers" ? isLoadingWeavers : isLoadingAdministrators;
+
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center w-full">
+          <p className="text-center text-lg text-blue-600 font-semibold animate-pulse">
+            Loading {activeTab}...
+          </p>
+        </div>
+      );
+    }
+
+    if (employees.length === 0) {
+      return (
+        <p className="text-center text-lg text-gray-600">
+          No {activeTab} found.
+        </p>
+      );
+    }
 
     return employees.map((employee) => (
       <div key={employee._id} className="bg-white p-6 rounded-lg shadow-md">
@@ -136,13 +162,13 @@ const EmployeesManagement = () => {
         <div className="flex justify-between mt-4">
           <button
             onClick={() => handleEdit(employee._id)}
-            className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200"
+            className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200 flex items-center"
           >
             <FaEdit className="mr-2" /> Edit
           </button>
           <button
             onClick={() => handleDelete(employee._id, activeTab)}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 flex items-center"
           >
             <FaTrash className="mr-2" /> Delete
           </button>
