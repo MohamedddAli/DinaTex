@@ -129,17 +129,17 @@ const SparePartsInventory = () => {
       </div>
 
       {/* Spare Parts List Section */}
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 overflow-scroll mb-6">
+      <div className="max-w-4xl mx-auto bg-blue-50 shadow-md rounded-lg p-8 mb-6">
         {filteredParts.length === 0 ? (
           <p className="text-center text-gray-500">
             No matching spare parts found.
           </p>
         ) : (
-          <ul className="space-y-4 overflow-x-auto">
+          <ul className="space-y-4">
             {filteredParts.map((part) => (
               <li
                 key={part._id}
-                className="flex justify-between items-center bg-blue-50 p-4 rounded-md shadow-sm w-full"
+                className="flex justify-between items-center bg-white p-4 rounded-md shadow-sm w-full"
               >
                 <div>
                   <h3 className="text-lg font-semibold text-gray-700">
