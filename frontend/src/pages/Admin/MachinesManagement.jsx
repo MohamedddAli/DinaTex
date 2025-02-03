@@ -232,7 +232,7 @@ const MachinesManagement = () => {
       </h1>
 
       {/* Tabs */}
-      <div className="overflow-x-scroll whitespace-nowrap mb-8">
+      <div className="flex justify-center space-x-4 overflow-x-scroll whitespace-nowrap mb-8">
         {["WeavingMachine", "Matwa", "Sadaya"].map((tab) => (
           <button
             key={tab}
