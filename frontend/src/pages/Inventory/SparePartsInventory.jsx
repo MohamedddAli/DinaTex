@@ -111,11 +111,12 @@ const SparePartsInventory = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
+        Spare Parts Inventory
+      </h1>
+
       {/* Search Bar Section */}
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 mb-6">
-        <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
-          Spare Parts Inventory
-        </h1>
         <div className="mb-6">
           <input
             type="text"
@@ -128,7 +129,7 @@ const SparePartsInventory = () => {
       </div>
 
       {/* Spare Parts List Section */}
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 overflow-scroll">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 overflow-scroll mb-6">
         {filteredParts.length === 0 ? (
           <p className="text-center text-gray-500">
             No matching spare parts found.
@@ -175,7 +176,7 @@ const SparePartsInventory = () => {
       </div>
 
       {/* Add Spare Part Section */}
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 mb-6 overflow-x-scroll">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 mt-6 overflow-x-scroll">
         <form
           onSubmit={addSparePart}
           className="flex flex-wrap space-x-4 gap-4"
