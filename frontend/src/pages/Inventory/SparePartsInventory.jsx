@@ -127,6 +127,53 @@ const SparePartsInventory = () => {
         </div>
       </div>
 
+      {/* Spare Parts List Section */}
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 overflow-scroll">
+        {filteredParts.length === 0 ? (
+          <p className="text-center text-gray-500">
+            No matching spare parts found.
+          </p>
+        ) : (
+          <ul className="space-y-4 overflow-x-auto">
+            {filteredParts.map((part) => (
+              <li
+                key={part._id}
+                className="flex justify-between items-center bg-blue-50 p-4 rounded-md shadow-sm w-full"
+              >
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-700">
+                    {part.name}
+                  </h3>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() =>
+                      updateQuantity(part._id, Math.max(0, part.quantity - 1))
+                    }
+                    className="px-3 py-1 bg-red-500 text-white font-bold rounded-lg hover:bg-red-700 transition"
+                  >
+                    -
+                  </button>
+                  <span className="text-xl font-semibold">{part.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(part._id, part.quantity + 1)}
+                    className="px-3 py-1 bg-green-500 text-white font-bold rounded-lg hover:bg-green-700 transition"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={() => deleteSparePart(part._id)}
+                    className="px-3 py-1 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-700 transition flex items-center"
+                  >
+                    <FiTrash2 className="text-lg" />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
       {/* Add Spare Part Section */}
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 mb-6 overflow-x-scroll">
         <form
@@ -158,56 +205,6 @@ const SparePartsInventory = () => {
             Add
           </button>
         </form>
-      </div>
-
-      {/* Spare Parts List Section */}
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 overflow-scroll">
-        {filteredParts.length === 0 ? (
-          <p className="text-center text-gray-500">
-            No matching spare parts found.
-          </p>
-        ) : (
-          <ul className="space-y-4 overflow-x-auto">
-            {filteredParts.map((part) => (
-              <li
-                key={part._id}
-                className="flex justify-between items-center bg-blue-50 p-4 rounded-md shadow-sm"
-              >
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-700">
-                    {part.name}
-                  </h3>
-                  <p className="text-md text-gray-600">
-                    Quantity: {part.quantity}
-                  </p>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() =>
-                      updateQuantity(part._id, Math.max(0, part.quantity - 1))
-                    }
-                    className="px-3 py-1 bg-red-500 text-white font-bold rounded-lg hover:bg-red-700 transition"
-                  >
-                    -
-                  </button>
-                  <span className="text-xl font-semibold">{part.quantity}</span>
-                  <button
-                    onClick={() => updateQuantity(part._id, part.quantity + 1)}
-                    className="px-3 py-1 bg-green-500 text-white font-bold rounded-lg hover:bg-green-700 transition"
-                  >
-                    +
-                  </button>
-                  <button
-                    onClick={() => deleteSparePart(part._id)}
-                    className="px-3 py-1 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-700 transition flex items-center"
-                  >
-                    <FiTrash2 className="text-lg" />
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
     </div>
   );
