@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FiTrash2 } from "react-icons/fi"; // Import delete icon
+import { FiTrash2, FiSearch } from "react-icons/fi"; // Import delete icon
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
 const SparePartsInventory = () => {
   const [spareParts, setSpareParts] = useState([]);
@@ -114,20 +115,17 @@ const SparePartsInventory = () => {
       <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
         Spare Parts Inventory
       </h1>
-
       {/* Search Bar Section */}
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 mb-6">
-        <div className="mb-6">
-          <input
-            type="text"
-            placeholder="Search Spare Part..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="p-2 border rounded-md w-full"
-          />
-        </div>
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-4 mb-6 flex items-center space-x-3 border">
+        <FiSearch className="text-gray-500 text-xl" />
+        <input
+          type="text"
+          placeholder="Search Spare Parts..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="p-2 flex-1 border-none focus:ring-0 focus:outline-none"
+        />
       </div>
-
       {/* Spare Parts List Section */}
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 overflow-scroll mb-6">
         {filteredParts.length === 0 ? (
@@ -139,7 +137,7 @@ const SparePartsInventory = () => {
             {filteredParts.map((part) => (
               <li
                 key={part._id}
-                className="flex justify-between items-center p-4 rounded-md shadow-sm w-full"
+                className="flex justify-between items-center p-4 rounded-md shadow-sm w-full bg-blue-50"
               >
                 <div>
                   <h3 className="text-lg font-semibold text-gray-700 ml-4">
@@ -147,26 +145,32 @@ const SparePartsInventory = () => {
                   </h3>
                 </div>
                 <div className="flex items-center space-x-3">
+                  {/* Decrease Button */}
                   <button
                     onClick={() =>
                       updateQuantity(part._id, Math.max(0, part.quantity - 1))
                     }
                     className="px-3 py-1 bg-red-500 text-white font-bold rounded-lg hover:bg-red-700 transition"
                   >
-                    -
+                    <AiOutlineMinus />
                   </button>
+
                   <span className="text-xl font-semibold">{part.quantity}</span>
+
+                  {/* Increase Button */}
                   <button
                     onClick={() => updateQuantity(part._id, part.quantity + 1)}
                     className="px-3 py-1 bg-green-500 text-white font-bold rounded-lg hover:bg-green-700 transition"
                   >
-                    +
+                    <AiOutlinePlus />
                   </button>
+
+                  {/* Delete Button */}
                   <button
                     onClick={() => deleteSparePart(part._id)}
                     className="px-3 py-1 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-700 transition flex items-center"
                   >
-                    <FiTrash2 className="text-lg" />
+                    <FiTrash2 />
                   </button>
                 </div>
               </li>
@@ -174,8 +178,7 @@ const SparePartsInventory = () => {
           </ul>
         )}
       </div>
-
-      {/* Add Spare Part Section */}
+      ;{/* Add Spare Part Section */}
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 mt-6 overflow-x-scroll">
         <form
           onSubmit={addSparePart}

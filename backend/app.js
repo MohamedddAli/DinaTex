@@ -15,6 +15,7 @@ app.use(cors());
 const machineRoutes = require("./routes/machines");
 const employeeRoutes = require("./routes/employees");
 const sparePartRoutes = require("./routes/spareParts");
+const textileRouter = require("./routes/textile");
 
 // MongoDB connection and server startup
 const startServer = async () => {
@@ -41,3 +42,4 @@ startServer();
 app.use("/admin/machines", machineRoutes);
 app.use("/admin/employees", employeeRoutes);
 app.use("/inventory/spare-parts", sparePartRoutes);
+app.use("/inventory/textile", textileRouter);

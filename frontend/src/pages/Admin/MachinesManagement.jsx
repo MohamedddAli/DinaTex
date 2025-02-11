@@ -176,7 +176,7 @@ const MachinesManagement = () => {
               </p>
               <p>
                 <strong className="text-gray-800">Quantity:</strong>{" "}
-                {machine.MaterialQuantity} kg
+                {machine.MaterialQuantity} Meters
               </p>
               <p>
                 <strong className="text-gray-800">Loaded Date:</strong>{" "}
