@@ -1,6 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaUser, FaCog, FaBoxes, FaWrench, FaTags } from "react-icons/fa"; // Importing icons from React Icons
+import {
+  FaUser,
+  FaCog,
+  FaBoxes,
+  FaWrench,
+  FaTags,
+  FaChartLine,
+  FaCalendarCheck,
+  FaMoneyBillWave,
+  FaTachometerAlt,
+} from "react-icons/fa"; // Importing icons
 
 const AdminHomePage = () => {
   return (
@@ -34,18 +44,6 @@ const AdminHomePage = () => {
           </p>
         </Link>
 
-        {/* Machine Types */}
-        <Link
-          to="/admin/machine-types"
-          className="admin-card bg-white rounded-lg shadow-md p-4 sm:p-6 text-center hover:bg-blue-50 transition duration-200"
-        >
-          <FaBoxes className="text-3xl sm:text-4xl text-indigo-600 mb-3 sm:mb-4" />
-          <h2 className="text-lg sm:text-xl font-semibold">Machine Types</h2>
-          <p className="text-sm sm:text-base text-gray-500">
-            View and manage different machine types.
-          </p>
-        </Link>
-
         {/* Spare Parts Inventory */}
         <Link
           to="/admin/spare-parts"
@@ -71,6 +69,58 @@ const AdminHomePage = () => {
           </h2>
           <p className="text-sm sm:text-base text-gray-500">
             Add, edit, or delete textile inventory.
+          </p>
+        </Link>
+
+        {/* Production Tracker */}
+        <Link
+          to="/admin/production-tracker"
+          className="admin-card bg-white rounded-lg shadow-md p-4 sm:p-6 text-center hover:bg-blue-50 transition duration-200"
+        >
+          <FaChartLine className="text-3xl sm:text-4xl text-red-600 mb-3 sm:mb-4" />
+          <h2 className="text-lg sm:text-xl font-semibold">
+            Production Tracker
+          </h2>
+          <p className="text-sm sm:text-base text-gray-500">
+            Monitor machine output and production efficiency.
+          </p>
+        </Link>
+
+        {/* Attendance Tracker */}
+        <Link
+          to="/admin/attendance-tracker"
+          className="admin-card bg-white rounded-lg shadow-md p-4 sm:p-6 text-center hover:bg-blue-50 transition duration-200"
+        >
+          <FaCalendarCheck className="text-3xl sm:text-4xl text-teal-600 mb-3 sm:mb-4" />
+          <h2 className="text-lg sm:text-xl font-semibold">
+            Attendance Tracker
+          </h2>
+          <p className="text-sm sm:text-base text-gray-500">
+            Keep track of employee attendance and absences.
+          </p>
+        </Link>
+
+        {/* Expense Tracker */}
+        <Link
+          to="/admin/expense-tracker"
+          className="admin-card bg-white rounded-lg shadow-md p-4 sm:p-6 text-center hover:bg-blue-50 transition duration-200"
+        >
+          <FaMoneyBillWave className="text-3xl sm:text-4xl text-yellow-600 mb-3 sm:mb-4" />
+          <h2 className="text-lg sm:text-xl font-semibold">Expense Tracker</h2>
+          <p className="text-sm sm:text-base text-gray-500">
+            Track all factory expenses, including maintenance and purchases.
+          </p>
+        </Link>
+
+        {/* NEW: Data Dashboard */}
+        <Link
+          to="/admin/data-dashboard"
+          className="admin-card bg-white rounded-lg shadow-md p-4 sm:p-6 text-center hover:bg-blue-50 transition duration-200"
+        >
+          <FaTachometerAlt className="text-3xl sm:text-4xl text-blue-600 mb-3 sm:mb-4" />
+          <h2 className="text-lg sm:text-xl font-semibold">Data Dashboard</h2>
+          <p className="text-sm sm:text-base text-gray-500">
+            Visualize key factory data with graphs and reports.
           </p>
         </Link>
       </div>

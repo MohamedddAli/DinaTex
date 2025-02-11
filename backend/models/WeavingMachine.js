@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Weaver = require("./Weaver");
 
 const weavingMachineSchema = new mongoose.Schema({
   Number: { type: Number, required: true },
@@ -16,6 +15,12 @@ const weavingMachineSchema = new mongoose.Schema({
   ],
   MaintenanceCost: { type: Number, default: 0 },
   Weaver: { type: mongoose.Schema.Types.ObjectId, ref: "Weaver" },
+  Status: {
+    type: String,
+    enum: ["Working", "Maintenance"],
+    required: true,
+    default: "Working",
+  },
 });
 
 const WeavingMachine = mongoose.model("WeavingMachine", weavingMachineSchema);

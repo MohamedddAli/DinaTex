@@ -11,6 +11,7 @@ const {
   deleteWeavingMachine,
   getWeavingMachineByID,
   editWeavingMachine,
+  toggleWeavingMachineStatus,
 } = require("../controllers/machines");
 
 router.get("/", getMachines);
@@ -30,5 +31,8 @@ router.delete("/weaving-machines/:id", deleteWeavingMachine);
 router.get("/weaving-machines/:id", getWeavingMachineByID);
 
 router.put("/weaving-machines/:id", editWeavingMachine);
+
+//edit the status of the weaving machine
+router.put("/weaving-machines/:id/status", toggleWeavingMachineStatus);
 
 module.exports = router;

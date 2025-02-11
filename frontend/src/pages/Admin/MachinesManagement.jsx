@@ -105,6 +105,26 @@ const MachinesManagement = () => {
     navigate(`/admin/machines/add-${machineType.toLowerCase()}`);
   };
 
+  const toggleMachineStatus = async (machineId) => {
+    try {
+      // Perform the API call with machineId
+      const response = await axios.put(
+        `${backendUrl}/admin/machines/weaving-machines/${machineId}/status`
+      );
+
+      // Update the machine state for weaving machines
+      setWeavingMachines((prevMachines) =>
+        prevMachines.map((machine) =>
+          machine._id === machineId
+            ? { ...machine, Status: response.data.status }
+            : machine
+        )
+      );
+    } catch (error) {
+      console.error("Error updating machine status:", error);
+    }
+  };
+
   const renderMachines = () => {
     const machines =
       activeTab === "WeavingMachine"
@@ -186,6 +206,25 @@ const MachinesManagement = () => {
                 <strong className="text-gray-800">Maintenance Cost:</strong>{" "}
                 {machine.MaintenanceCost} EGP
               </p>
+
+              {/* Machine Status Toggle */}
+              <div className="flex items-center space-x-4">
+                <strong className="text-gray-800">Machine Status:</strong>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={machine.Status === "Working"}
+                    // Pass a function that calls toggleMachineStatus with machine._id
+                    onChange={() => toggleMachineStatus(machine._id)}
+                  />
+                  <span className="slider round"></span>
+                </label>
+                <span className="text-gray-600">
+                  {machine.Status === "Working"
+                    ? "Operational"
+                    : "Under Maintenance"}
+                </span>
+              </div>
             </div>
           </div>
         )}

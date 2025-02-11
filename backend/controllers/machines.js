@@ -248,3 +248,28 @@ exports.editWeavingMachine = async (req, res) => {
     res.status(500).json({ message: "Server error. Please try again." });
   }
 };
+
+exports.toggleWeavingMachineStatus = async (req, res) => {
+  try {
+    const machineId = req.params.id; // Get the machine ID from the URL parameter
+
+    // Find the machine by its ID
+    const machine = await WeavingMachine.findById(machineId);
+
+    if (!machine) {
+      return res.status(404).json({ message: "Machine not found" });
+    }
+
+    // Toggle the machine's status
+    machine.Status = machine.Status === "Working" ? "Maintenance" : "Working";
+
+    // Save the updated machine status
+    await machine.save();
+
+    // Respond with the updated machine status
+    res.status(200).json({ status: machine.Status });
+  } catch (error) {
+    console.error("Error updating machine status:", error);
+    res.status(500).json({ message: "Error updating machine status" });
+  }
+};
