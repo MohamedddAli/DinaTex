@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FiTrash2, FiSearch } from "react-icons/fi";
-import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { FiTrash2, FiSearch, FiLogIn, FiLogOut } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const TextileInventory = () => {
   const [textiles, setTextiles] = useState([]);
@@ -9,7 +9,7 @@ const TextileInventory = () => {
   const [error, setError] = useState(null);
   const [newTextile, setNewTextile] = useState({ name: "", quantity: 0 });
   const [searchTerm, setSearchTerm] = useState("");
-
+  const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Fetch textiles from API
@@ -55,12 +55,6 @@ const TextileInventory = () => {
     } catch (error) {
       console.error("Error deleting textile:", error);
     }
-  };
-
-  // Handle input change for new textile
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewTextile((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle search input change
@@ -147,28 +141,10 @@ const TextileInventory = () => {
                   </h3>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() =>
-                      updateQuantity(
-                        textile._id,
-                        Math.max(0, textile.quantity - 1)
-                      )
-                    }
-                    className="px-3 py-1 bg-red-500 text-white font-bold rounded-lg hover:bg-red-700 transition"
-                  >
-                    <AiOutlineMinus />
-                  </button>
                   <span className="text-xl font-semibold">
-                    {textile.quantity}
+                    {textile.quantity} Meters
                   </span>
-                  <button
-                    onClick={() =>
-                      updateQuantity(textile._id, textile.quantity + 1)
-                    }
-                    className="px-3 py-1 bg-green-500 text-white font-bold rounded-lg hover:bg-green-700 transition"
-                  >
-                    <AiOutlinePlus />
-                  </button>
+
                   <button
                     onClick={() => deleteTextile(textile._id)}
                     className="px-3 py-1 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-700 transition flex items-center"
@@ -182,34 +158,24 @@ const TextileInventory = () => {
         )}
       </div>
 
-      {/* Add Textile Form */}
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 mt-6 overflow-x-scroll">
-        <form onSubmit={addTextile} className="flex flex-wrap space-x-4 gap-4">
-          <input
-            type="text"
-            name="name"
-            placeholder="Textile Name"
-            value={newTextile.name}
-            onChange={handleInputChange}
-            className="p-2 border rounded-md flex-1"
-            required
-          />
-          <input
-            type="number"
-            name="quantity"
-            placeholder="Quantity"
-            value={newTextile.quantity}
-            onChange={handleInputChange}
-            className="p-2 border rounded-md w-full sm:w-24"
-            required
-          />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-700 transition w-full sm:w-auto"
-          >
-            Add
-          </button>
-        </form>
+      <div className="flex justify-center items-center my-8 space-x-48">
+        {/* Entry Button */}
+        <button
+          className="flex flex-col items-center px-6 py-4 bg-green-500 text-white font-bold rounded-lg hover:bg-green-700 transition transform hover:scale-105 shadow-md"
+          onClick={() => navigate("add-textile")}
+        >
+          <FiLogIn className="text-3xl mb-1" />
+          <span className="text-sm">Entry</span>
+        </button>
+
+        {/* Exit Button */}
+        <button
+          className="flex flex-col items-center px-6 py-4 bg-red-500 text-white font-bold rounded-lg hover:bg-red-700 transition transform hover:scale-105 shadow-md"
+          onClick={() => navigate("remove-textile")}
+        >
+          <FiLogOut className="text-3xl mb-1" />
+          <span className="text-sm">Exit</span>
+        </button>
       </div>
     </div>
   );

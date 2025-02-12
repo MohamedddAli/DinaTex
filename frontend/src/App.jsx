@@ -14,6 +14,8 @@ import EditWeavingMachine from "./pages/Admin/EditWeavingMachine";
 import AddWeaver from "./pages/Admin/AddWeaver";
 import EditWeaver from "./pages/Admin/EditWeaver";
 import ViewWeaverInfo from "./pages/Admin/ViewWeaverInfo";
+import AddTextile from "./pages/Inventory/AddTextile";
+import RemoveTextile from "./pages/Inventory/RemoveTextile";
 
 const App = () => {
   return (
@@ -44,7 +46,16 @@ const App = () => {
       <Route path="/admin/machines/add-machine" element={<AddMachine />} />
       <Route path="/admin/spare-parts" element={<SparePartsInventory />} />
       <Route path="/admin/textile-inventory" element={<TextileInventory />} />
-      <Route path="/admin/machine-types" element={<MachineTypes />} />
+
+      <Route
+        path="/admin/textile-inventory/add-textile"
+        element={<AddTextile />}
+      />
+
+      <Route
+        path="/admin/textile-inventory/remove-textile"
+        element={<RemoveTextile />}
+      />
     </Routes>
   );
 };
