@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/header";
 
 const AddWeaver = () => {
   const [name, setName] = useState("");
@@ -39,7 +40,8 @@ const AddWeaver = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className=" bg-gray-100 min-h-screen">
+      <Header />
       <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
         Add Weaver
       </h1>

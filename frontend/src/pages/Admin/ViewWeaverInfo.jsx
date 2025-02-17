@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Header from "../../components/header";
 
 const ViewWeaverInfo = () => {
   const { id } = useParams(); // Get the Weaver ID from the URL
@@ -47,7 +48,8 @@ const ViewWeaverInfo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 ">
+      <Header />
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8">
         <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
           Weaver Information

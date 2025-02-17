@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import Header from "../../components/header";
 
 const EmployeesManagement = () => {
   const [weavers, setWeavers] = useState([]);
@@ -178,7 +179,10 @@ const EmployeesManagement = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className=" bg-gray-100 min-h-screen">
+      {/* Header */}
+      <Header />
+
       <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
         Employees Management
       </h1>

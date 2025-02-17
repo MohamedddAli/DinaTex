@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Header from "../../components/header";
 
 const MachinesManagement = () => {
   const [weavingMachines, setWeavingMachines] = useState([]);
@@ -151,7 +152,7 @@ const MachinesManagement = () => {
     }
 
     return machines.map((machine) => (
-      <div key={machine._id} className="bg-white p-6 rounded-lg shadow-md">
+      <div key={machine._id} className="bg-white p-6 rounded-lg shadow-md ">
         {/* Render machine-specific details */}
         {activeTab === "WeavingMachine" && (
           <div className="bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200">
@@ -265,13 +266,17 @@ const MachinesManagement = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className=" bg-gray-100 min-h-screen">
+      {/* Header */}
+      <Header />
+
+      {/* Page Title */}
       <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
         Machines Management
       </h1>
 
       {/* Tabs */}
-      <div className="flex justify-center space-x-4 overflow-x-scroll whitespace-nowrap mb-8">
+      <div className="flex justify-center space-x-4 overflow-x-scroll whitespace-nowrap mb-8 ml-6">
         {["WeavingMachine", "Matwa", "Sadaya"].map((tab) => (
           <button
             key={tab}

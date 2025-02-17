@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/header";
 
 const RemoveTextile = () => {
   const [textiles, setTextiles] = useState([]);
@@ -59,7 +60,8 @@ const RemoveTextile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 ">
+      <Header />
       <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
         Remove Textile Quantity
       </h1>

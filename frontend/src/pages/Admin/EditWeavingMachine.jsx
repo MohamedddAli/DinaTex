@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../../components/header";
 
 const EditWeavingMachine = () => {
   const { id } = useParams(); // Extract the machine ID from the URL
@@ -70,7 +71,8 @@ const EditWeavingMachine = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className=" bg-gray-100 min-h-screen">
+      <Header />
       <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
         Edit Weaving Machine
       </h1>

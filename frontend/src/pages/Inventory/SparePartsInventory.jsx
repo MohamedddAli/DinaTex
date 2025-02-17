@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FiTrash2, FiSearch } from "react-icons/fi"; // Import delete icon
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import Header from "../../components/header";
 
 const SparePartsInventory = () => {
   const [spareParts, setSpareParts] = useState([]);
@@ -111,7 +112,9 @@ const SparePartsInventory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 ">
+      {/* Header Component */}
+      <Header />
       <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
         Spare Parts Inventory
       </h1>

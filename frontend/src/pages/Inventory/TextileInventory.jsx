@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FiTrash2, FiSearch, FiLogIn, FiLogOut, FiClock } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../../components/header";
 
 const TextileInventory = () => {
   const [textiles, setTextiles] = useState([]);
@@ -88,7 +89,10 @@ const TextileInventory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 ">
+      {/* Header */}
+      <Header />
+
       <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
         Textile Inventory
       </h1>
