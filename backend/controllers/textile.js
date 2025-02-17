@@ -100,7 +100,7 @@ exports.TextileExit = async (req, res) => {
     // Add to history log (Optional)
     const historyEntry = new TextileInventoryHistory({
       textile: textile._id,
-      quantity: -quantity, // Negative quantity for removal
+      quantity: quantity, // Negative quantity for removal
       action: "exit",
       date: new Date(),
     });
@@ -140,5 +140,22 @@ exports.deleteTextile = async (req, res) => {
     res.status(200).json({ message: "Textile deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting textile", error });
+  }
+};
+
+exports.getTextileInventoryHistory = async (req, res) => {
+  try {
+    const history = await TextileInventoryHistory.find()
+      .populate({
+        path: "textile", // Ensure "textile" is the correct reference field
+        select: "name", // Select only the name field from Textile
+      })
+      .sort({ date: -1 }); // Sort by newest entries first
+
+    res.status(200).json(history);
+  } catch (error) {
+    console.error("Error fetching textile history:", error);
+    console.log(error);
+    res.status(500).json({ message: "Error fetching textile history", error });
   }
 };

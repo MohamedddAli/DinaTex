@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FiTrash2, FiSearch, FiLogIn, FiLogOut } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { FiTrash2, FiSearch, FiLogIn, FiLogOut, FiClock } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
 
 const TextileInventory = () => {
   const [textiles, setTextiles] = useState([]);
@@ -27,23 +27,6 @@ const TextileInventory = () => {
     };
     fetchTextiles();
   }, [backendUrl]);
-
-  // Update textile quantity
-  const updateQuantity = async (id, newQuantity) => {
-    if (newQuantity < 0) return;
-    try {
-      await axios.put(`${backendUrl}/inventory/textile/${id}`, {
-        quantity: newQuantity,
-      });
-      setTextiles((prev) =>
-        prev.map((textile) =>
-          textile._id === id ? { ...textile, quantity: newQuantity } : textile
-        )
-      );
-    } catch (error) {
-      console.error("Error updating quantity:", error);
-    }
-  };
 
   // Delete textile
   const deleteTextile = async (id) => {
@@ -120,6 +103,11 @@ const TextileInventory = () => {
           onChange={handleSearchChange}
           className="p-2 flex-1 border-none focus:ring-0 focus:outline-none"
         />
+      </div>
+
+      <div className="flex items-center justify-center text-blue-500 underline">
+        <FiClock className="text-xl m-4" />
+        <Link to="history"> Inventory History</Link>
       </div>
 
       {/* Textile List */}

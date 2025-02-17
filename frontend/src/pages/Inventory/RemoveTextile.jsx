@@ -50,6 +50,7 @@ const RemoveTextile = () => {
       setSuccess("Quantity removed successfully!");
       setError(null); // Clear any previous errors
       setQuantityToRemove(0); // Reset quantity field
+      alert("Textile exit added successfully!");
       navigate("/admin/textile-inventory"); // Redirect to inventory page
     } catch (err) {
       setError("Error removing quantity.");

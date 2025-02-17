@@ -16,6 +16,7 @@ import EditWeaver from "./pages/Admin/EditWeaver";
 import ViewWeaverInfo from "./pages/Admin/ViewWeaverInfo";
 import AddTextile from "./pages/Inventory/AddTextile";
 import RemoveTextile from "./pages/Inventory/RemoveTextile";
+import TextileInventoryHistory from "./pages/Inventory/TextileInventoryHistory";
 
 const App = () => {
   return (
@@ -55,6 +56,10 @@ const App = () => {
       <Route
         path="/admin/textile-inventory/remove-textile"
         element={<RemoveTextile />}
+      />
+      <Route
+        path="/admin/textile-inventory/history"
+        element={<TextileInventoryHistory />}
       />
     </Routes>
   );

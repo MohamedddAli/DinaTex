@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const TextileInventoryHistorySchema = new Schema({
   textile: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Textile",
     required: true,
   },
